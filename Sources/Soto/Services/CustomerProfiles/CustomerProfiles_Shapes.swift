@@ -349,10 +349,15 @@ extension CustomerProfiles {
     }
 
     public struct ConnectorOperator: AWSEncodableShape {
+        /// The operation to be performed on the provided Marketo source fields.
         public let marketo: MarketoConnectorOperator?
+        /// The operation to be performed on the provided Amazon S3 source fields.
         public let s3: S3ConnectorOperator?
+        /// The operation to be performed on the provided Salesforce source fields.
         public let salesforce: SalesforceConnectorOperator?
+        /// The operation to be performed on the provided ServiceNow source fields.
         public let serviceNow: ServiceNowConnectorOperator?
+        /// The operation to be performed on the provided Zendesk source fields.
         public let zendesk: ZendeskConnectorOperator?
 
         public init(marketo: MarketoConnectorOperator? = nil, s3: S3ConnectorOperator? = nil, salesforce: SalesforceConnectorOperator? = nil, serviceNow: ServiceNowConnectorOperator? = nil, zendesk: ZendeskConnectorOperator? = nil) {
@@ -906,11 +911,17 @@ extension CustomerProfiles {
     }
 
     public struct FlowDefinition: AWSEncodableShape {
+        /// A description of the flow you want to create.
         public let description: String?
+        /// The specified name of the flow. Use underscores (_) or hyphens (-) only. Spaces are not allowed.
         public let flowName: String
+        /// The Amazon Resource Name of the AWS Key Management Service (KMS) key you provide for encryption.
         public let kmsArn: String
+        /// The configuration that controls how Customer Profiles retrieves data from the source.
         public let sourceFlowConfig: SourceFlowConfig
+        /// A list of tasks that Customer Profiles performs while transferring the data in the flow run.
         public let tasks: [Task]
+        /// The trigger settings that determine how and when the flow runs.
         public let triggerConfig: TriggerConfig
 
         public init(description: String? = nil, flowName: String, kmsArn: String, sourceFlowConfig: SourceFlowConfig, tasks: [Task], triggerConfig: TriggerConfig) {
@@ -1206,6 +1217,7 @@ extension CustomerProfiles {
     }
 
     public struct IncrementalPullConfig: AWSEncodableShape {
+        /// A field that specifies the date time or timestamp field as the criteria to use when importing incremental records from the source.
         public let datetimeTypeFieldName: String?
 
         public init(datetimeTypeFieldName: String? = nil) {
@@ -1684,6 +1696,7 @@ extension CustomerProfiles {
     }
 
     public struct MarketoSourceProperties: AWSEncodableShape {
+        /// The object specified in the Marketo flow source.
         public let object: String
 
         public init(object: String) {
@@ -1857,6 +1870,7 @@ extension CustomerProfiles {
 
         /// The unique name of the domain.
         public let domainName: String
+        /// The configuration that controls how Customer Profiles retrieves data from the source.
         public let flowDefinition: FlowDefinition?
         /// The name of the profile object type.
         public let objectTypeName: String
@@ -2121,7 +2135,9 @@ extension CustomerProfiles {
     }
 
     public struct S3SourceProperties: AWSEncodableShape {
+        /// The Amazon S3 bucket name where the source files are stored.
         public let bucketName: String
+        /// The object key for the Amazon S3 bucket in which the source files are stored.
         public let bucketPrefix: String?
 
         public init(bucketName: String, bucketPrefix: String? = nil) {
@@ -2144,8 +2160,11 @@ extension CustomerProfiles {
     }
 
     public struct SalesforceSourceProperties: AWSEncodableShape {
+        /// The flag that enables dynamic fetching of new (recently added) fields in the Salesforce objects while running a flow.
         public let enableDynamicFieldUpdate: Bool?
+        /// Indicates whether Amazon AppFlow includes deleted files in the flow run.
         public let includeDeletedRecords: Bool?
+        /// The object specified in the Salesforce flow source.
         public let object: String
 
         public init(enableDynamicFieldUpdate: Bool? = nil, includeDeletedRecords: Bool? = nil, object: String) {
@@ -2167,12 +2186,19 @@ extension CustomerProfiles {
     }
 
     public struct ScheduledTriggerProperties: AWSEncodableShape {
+        /// Specifies whether a scheduled flow has an incremental data transfer or a complete data transfer for each flow run.
         public let dataPullMode: DataPullMode?
+        /// Specifies the date range for the records to import from the connector in the first flow run.
         public let firstExecutionFrom: Date?
+        /// Specifies the scheduled end time for a scheduled-trigger flow.
         public let scheduleEndTime: Date?
+        /// The scheduling expression that determines the rate at which the schedule will run, for example rate (5 minutes).
         public let scheduleExpression: String
+        /// Specifies the optional offset that is added to the time interval for a schedule-triggered flow.
         public let scheduleOffset: Int64?
+        /// Specifies the scheduled start time for a scheduled-trigger flow.
         public let scheduleStartTime: Date?
+        /// Specifies the time zone used when referring to the date and time of a scheduled-triggered flow, such as America/New_York.
         public let timezone: String?
 
         public init(dataPullMode: DataPullMode? = nil, firstExecutionFrom: Date? = nil, scheduleEndTime: Date? = nil, scheduleExpression: String, scheduleOffset: Int64? = nil, scheduleStartTime: Date? = nil, timezone: String? = nil) {
@@ -2272,6 +2298,7 @@ extension CustomerProfiles {
     }
 
     public struct ServiceNowSourceProperties: AWSEncodableShape {
+        /// The object specified in the ServiceNow flow source.
         public let object: String
 
         public init(object: String) {
@@ -2289,10 +2316,15 @@ extension CustomerProfiles {
     }
 
     public struct SourceConnectorProperties: AWSEncodableShape {
+        /// The properties that are applied when Marketo is being used as a source.
         public let marketo: MarketoSourceProperties?
+        /// The properties that are applied when Amazon S3 is being used as the flow source.
         public let s3: S3SourceProperties?
+        /// The properties that are applied when Salesforce is being used as a source.
         public let salesforce: SalesforceSourceProperties?
+        /// The properties that are applied when ServiceNow is being used as a source.
         public let serviceNow: ServiceNowSourceProperties?
+        /// The properties that are applied when using Zendesk as a flow source.
         public let zendesk: ZendeskSourceProperties?
 
         public init(marketo: MarketoSourceProperties? = nil, s3: S3SourceProperties? = nil, salesforce: SalesforceSourceProperties? = nil, serviceNow: ServiceNowSourceProperties? = nil, zendesk: ZendeskSourceProperties? = nil) {
@@ -2321,9 +2353,13 @@ extension CustomerProfiles {
     }
 
     public struct SourceFlowConfig: AWSEncodableShape {
+        /// The name of the AppFlow connector profile. This name must be unique for each connector profile in the AWS account.
         public let connectorProfileName: String?
+        /// The type of connector, such as Salesforce, Marketo, and so on.
         public let connectorType: SourceConnectorType
+        /// Defines the configuration for a scheduled incremental data pull. If a valid configuration is provided, the fields specified in the configuration are used when querying for the incremental data pull.
         public let incrementalPullConfig: IncrementalPullConfig?
+        /// Specifies the information that is required to query a particular source connector.
         public let sourceConnectorProperties: SourceConnectorProperties
 
         public init(connectorProfileName: String? = nil, connectorType: SourceConnectorType, incrementalPullConfig: IncrementalPullConfig? = nil, sourceConnectorProperties: SourceConnectorProperties) {
@@ -2384,10 +2420,15 @@ extension CustomerProfiles {
     }
 
     public struct Task: AWSEncodableShape {
+        /// The operation to be performed on the provided source fields.
         public let connectorOperator: ConnectorOperator?
+        /// A field in a destination connector, or a field value against which Amazon AppFlow validates a source field.
         public let destinationField: String?
+        /// The source fields to which a particular task is applied.
         public let sourceFields: [String]
+        /// A map used to store task-related information. The service looks for particular information based on the TaskType.
         public let taskProperties: [OperatorPropertiesKeys: String]?
+        /// Specifies the particular task implementation that Amazon AppFlow performs.
         public let taskType: TaskType
 
         public init(connectorOperator: ConnectorOperator? = nil, destinationField: String? = nil, sourceFields: [String], taskProperties: [OperatorPropertiesKeys: String]? = nil, taskType: TaskType) {
@@ -2421,7 +2462,9 @@ extension CustomerProfiles {
     }
 
     public struct TriggerConfig: AWSEncodableShape {
+        /// Specifies the configuration details of a schedule-triggered flow that you define. Currently, these settings only apply to the Scheduled trigger type.
         public let triggerProperties: TriggerProperties?
+        /// Specifies the type of flow trigger. It can be OnDemand, Scheduled, or Event.
         public let triggerType: TriggerType
 
         public init(triggerProperties: TriggerProperties? = nil, triggerType: TriggerType) {
@@ -2440,6 +2483,7 @@ extension CustomerProfiles {
     }
 
     public struct TriggerProperties: AWSEncodableShape {
+        /// Specifies the configuration details of a schedule-triggered flow that you define.
         public let scheduled: ScheduledTriggerProperties?
 
         public init(scheduled: ScheduledTriggerProperties? = nil) {
@@ -2812,6 +2856,7 @@ extension CustomerProfiles {
     }
 
     public struct ZendeskSourceProperties: AWSEncodableShape {
+        /// The object specified in the Zendesk flow source.
         public let object: String
 
         public init(object: String) {

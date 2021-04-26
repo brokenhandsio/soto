@@ -2220,13 +2220,16 @@ extension AuditManager {
 
     public struct GetAssessmentResponse: AWSDecodableShape {
         public let assessment: Assessment?
+        public let userRole: Role?
 
-        public init(assessment: Assessment? = nil) {
+        public init(assessment: Assessment? = nil, userRole: Role? = nil) {
             self.assessment = assessment
+            self.userRole = userRole
         }
 
         private enum CodingKeys: String, CodingKey {
             case assessment
+            case userRole
         }
     }
 
@@ -3291,7 +3294,7 @@ extension AuditManager {
     public struct SourceKeyword: AWSEncodableShape & AWSDecodableShape {
         ///  The method of input for the specified keyword.
         public let keywordInputType: KeywordInputType?
-        ///  The value of the keyword used to search AWS CloudTrail logs when mapping a control data source.
+        ///  The value of the keyword used to search AWS CloudTrail logs, AWS Config rules, AWS Security Hub checks, and AWS API names when mapping a control data source.
         public let keywordValue: String?
 
         public init(keywordInputType: KeywordInputType? = nil, keywordValue: String? = nil) {
